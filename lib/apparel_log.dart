@@ -188,33 +188,6 @@ class _ApparelLogPageState extends State<ApparelLogPage> {
     }
   }
 
-  /*@override
-  Widget build(BuildContext context) {
-    bool isDesktop = MediaQuery.sizeOf(context).width >= 600 ? true : false;
-    return Scaffold(
-      appBar: CustomAppBar(title: 'Apparel Log'),
-      body: Align(
-        alignment: Alignment.topCenter,
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 800.0),
-          child: Container(
-            color: Color(0xFF060606),
-            padding: const EdgeInsets.all(16.0),
-            child: Flex(
-              direction: isDesktop ? Axis.horizontal : Axis.vertical,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildInfoColumn(),
-                SizedBox(width: 40.0, height: 40),
-                Expanded(child: _buildInputColumn()),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -264,7 +237,6 @@ class _ApparelLogPageState extends State<ApparelLogPage> {
           children: [
             // Associate name input field.
             TextFormField(
-              keyboardType: TextInputType.number,
               controller: _associateController,
               decoration: InputDecoration(labelText: 'Associate', border: OutlineInputBorder()),
             ),
