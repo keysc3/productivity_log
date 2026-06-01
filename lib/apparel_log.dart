@@ -237,6 +237,7 @@ class _ApparelLogPageState extends State<ApparelLogPage> {
           children: [
             // Associate name input field.
             TextFormField(
+              keyboardType: TextInputType.text,
               controller: _associateController,
               decoration: InputDecoration(labelText: 'Associate', border: OutlineInputBorder()),
             ),
