@@ -48,12 +48,17 @@ class _ApparelLogPageState extends State<ApparelLogPage> {
   }
 
 
+  // Update the final proc times and box amount.
+  void _updateInfoValues(){
+    _calculateTotalProcessingTime();
+    totalFull = _formatTotalProcessingTime();
+    expectedBoxes = totalMinutes ~/ boxTime;
+  }
+
   // Huddle length value changed.
   void _huddleLengthChanged(){
     setState(() {
-      _calculateTotalProcessingTime();
-      totalFull = _formatTotalProcessingTime();
-      expectedBoxes = totalMinutes ~/ boxTime;
+      _updateInfoValues();
     });
   }
 
@@ -106,9 +111,7 @@ class _ApparelLogPageState extends State<ApparelLogPage> {
       setState(() {
         procStartTime = picked;
         _procStartTimeController.text = procStartTime.format(context);
-        _calculateTotalProcessingTime();
-        totalFull = _formatTotalProcessingTime();
-        expectedBoxes = totalMinutes ~/ boxTime;
+        _updateInfoValues();
       });
     }
   }
@@ -148,9 +151,7 @@ class _ApparelLogPageState extends State<ApparelLogPage> {
     if(_isValidShiftTime()){
       setState(() {
         _shifts.add(AssociateShift(name: _associateController.text, shiftStart: startTime, shiftEnd: endTime, isCoord: _isChecked));
-        _calculateTotalProcessingTime();
-        totalFull = _formatTotalProcessingTime();
-        expectedBoxes = totalMinutes ~/ boxTime;
+        _updateInfoValues();
       });
       _associateController.clear();
     }
@@ -175,9 +176,7 @@ class _ApparelLogPageState extends State<ApparelLogPage> {
   void _removeItem(int index) {
     setState(() {
       _shifts.removeAt(index);
-      _calculateTotalProcessingTime();
-      totalFull = _formatTotalProcessingTime();
-      expectedBoxes = totalMinutes ~/ 33;
+      _updateInfoValues();
     });
   }
 
