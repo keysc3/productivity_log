@@ -7,8 +7,8 @@ class AssociateShift {
   final String name;
   final TimeOfDay shiftStart;
   final TimeOfDay shiftEnd;
-  
-  AssociateShift({required this.name, required this.shiftStart, required this.shiftEnd});
+  final bool isCoord;
+  AssociateShift({required this.name, required this.shiftStart, required this.shiftEnd, required this.isCoord});
 }
 
 class ApparelLogPage extends StatefulWidget {
@@ -35,6 +35,7 @@ class _ApparelLogPageState extends State<ApparelLogPage> {
   int totalMinutes = 0;
   String totalFull = '00:00';
   int expectedBoxes = 0;
+  bool _isChecked = false;
 
   @override
   void dispose() {
@@ -128,6 +129,7 @@ class _ApparelLogPageState extends State<ApparelLogPage> {
       if(shift.shiftStart .hour <= 9){
         huddleTime = int.tryParse(_huddleController.text) ?? 0;
       }
+      // TODO: ACCOUNT FOR COORD TIME.
       total += differenceInMinutes - _calculateBreak(differenceInMinutes) - procStartDiff - huddleTime;
     }
     totalMinutes = total;
@@ -145,7 +147,7 @@ class _ApparelLogPageState extends State<ApparelLogPage> {
   void _addItem() {
     if(_isValidShiftTime()){
       setState(() {
-        _shifts.add(AssociateShift(name: _associateController.text, shiftStart: startTime, shiftEnd: endTime));
+        _shifts.add(AssociateShift(name: _associateController.text, shiftStart: startTime, shiftEnd: endTime, isCoord: _isChecked));
         _calculateTotalProcessingTime();
         totalFull = _formatTotalProcessingTime();
         expectedBoxes = totalMinutes ~/ boxTime;
@@ -242,7 +244,25 @@ class _ApparelLogPageState extends State<ApparelLogPage> {
             TextFormField(
               keyboardType: TextInputType.text,
               controller: _associateController,
-              decoration: InputDecoration(labelText: 'Associate', border: OutlineInputBorder()),
+              decoration: InputDecoration(
+                labelText: 'Associate', 
+                border: OutlineInputBorder(),
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Checkbox(
+                      value: _isChecked,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _isChecked = value ?? false;
+                        });
+                      },
+                    ),
+                    Text( "Coord?", style: TextStyle(fontSize: 14.0)),
+                    SizedBox(width: 8.0),
+                  ],
+                ),
+              ),
             ),
             SizedBox(height: 16.0),
             Row(
