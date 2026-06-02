@@ -29,7 +29,6 @@ class _ApparelLogPageState extends State<ApparelLogPage> {
   static const int boxTime = 33;
   static const int minHour = 6;
   static const int maxHour = 22;
-  int huddleMinutes = 0;
   TimeOfDay startTime = TimeOfDay.now();
   TimeOfDay endTime = TimeOfDay.now();
   TimeOfDay procStartTime = TimeOfDay(hour: 7, minute: 0);
@@ -125,7 +124,11 @@ class _ApparelLogPageState extends State<ApparelLogPage> {
 
       // End minutes always larger than start minutes.
       int differenceInMinutes = endMinutes - startMinutes;
-      total += differenceInMinutes - _calculateBreak(differenceInMinutes) - procStartDiff - (int.tryParse(_huddleController.text) ?? 0);
+      int huddleTime = 0;
+      if(shift.shiftStart .hour <= 9){
+        huddleTime = int.tryParse(_huddleController.text) ?? 0;
+      }
+      total += differenceInMinutes - _calculateBreak(differenceInMinutes) - procStartDiff - huddleTime;
     }
     totalMinutes = total;
   }
